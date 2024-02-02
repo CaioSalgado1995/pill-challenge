@@ -15,7 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 function getHtmlFrom(url) {
     return __awaiter(this, void 0, void 0, function* () {
-        return (yield axios_1.default.get(url)).data;
+        return axios_1.default.get(url)
+            .then((response) => response.data)
+            .catch((error) => {
+            console.log("Axios error => " + error);
+            if (error.response.status == 404) {
+                throw Error("resource_not_found");
+            }
+            else {
+                throw Error("generic_error");
+            }
+        });
     });
 }
 exports.default = getHtmlFrom;

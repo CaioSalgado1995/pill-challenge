@@ -13,8 +13,18 @@ router.get('/', (req, res) => {
         console.debug("Medicine result: " + medicine);
         res.json(medicine);
     }).catch((err) => {
-        console.log("Error", err);
-        res.status(500).send();
+        if (err.message == "resource_not_found") {
+            res.status(404).send({
+                code: err.message,
+                message: "Recurso não encontrado"
+            });
+        }
+        else {
+            res.status(500).send({
+                code: err.message,
+                message: "Erro genérico"
+            });
+        }
     });
 });
 exports.default = router;

@@ -1,5 +1,6 @@
 import express from 'express'
 import getMedicineData from '../service/medicineService'
+import ErrorResponse from '../model/errorResponse'
 
 const router = express.Router()
 
@@ -8,12 +9,23 @@ router.get('/', (req, res) => {
     console.debug("Url data: " + url)
     
     getMedicineData(url).then((medicine) => {
-        console.debug("Medicine result: " + medicine)
-
         res.json(medicine)
     }).catch((err) => {
-        console.log("Error", err)
-        res.status(500).send()
+        if(err.message == "resource_not_found") {
+            res.status(404).send(
+                {
+                    code: err.message,
+                    message: "Recurso não encontrado"
+                } as ErrorResponse
+            )
+        } else {
+            res.status(500).send(
+                {
+                    code: err.message,
+                    message: "Erro genérico"
+                } as ErrorResponse
+            )
+        }
     })
 })
 
