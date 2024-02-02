@@ -22,10 +22,6 @@ function App() {
     fetchData();
   }, []);
 
-  const handleAmountChange = (values) => {
-    
-  };
-
   return (
     <div style={{ backgroundColor: '#f0f0f0', padding: '20px', margin: '0 auto' }}>
       <header style={{ maxWidth: '100%', display: 'flex', alignItems: 'center' }}>
