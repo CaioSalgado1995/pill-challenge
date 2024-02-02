@@ -10,7 +10,6 @@ router.get('/', (req, res) => {
     const url = req.query['url'];
     console.debug("Url data: " + url);
     (0, medicineService_1.default)(url).then((medicine) => {
-        console.debug("Medicine result: " + medicine);
         res.json(medicine);
     }).catch((err) => {
         if (err.message == "resource_not_found") {
