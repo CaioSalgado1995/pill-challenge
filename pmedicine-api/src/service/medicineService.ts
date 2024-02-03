@@ -4,8 +4,8 @@ import Medicine from '../model/medicine'
 import ExternalPharmacyExtractConfig from '../model/extractConfig'
 
 async function getMedicineData(url: string): Promise<Medicine> {
+    const pharmacyExtractConfig = getExtractConfig(url)
     return getHtmlFrom(url).then((htmlData) => {
-        const pharmacyExtractConfig = getExtractConfig(url)
         return extractFrom(htmlData, pharmacyExtractConfig)
     })
 }
@@ -21,7 +21,7 @@ function getExtractConfig(url: string): ExternalPharmacyExtractConfig {
             image: ".small-img"
         }
     } else {
-        throw Error('External pharmacy provider does not have any configuration' + url)
+        throw Error("External pharmacy provider does not have any configuration " + url)
     }
 }
 

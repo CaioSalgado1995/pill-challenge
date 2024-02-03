@@ -23,8 +23,8 @@ function extractFrom(
     const medicineDescription = $(extractConfig.description).text()
     const medicineBrand = $(extractConfig.brand).text()
     const medicineImage = $(extractConfig.image).prop('src') as string
-    const medicinePrice = parseFloat(JSON.parse($(extractConfig.price).text())["offers"]["price"])
-    const medicineBarcode = getBarcode($, extractConfig)
+    const medicinePrice = parseFloat(getFromScript($, extractConfig))
+    const medicineBarcode = getFromTable($, extractConfig)
 
     return {
         name: medicineName,
@@ -42,7 +42,7 @@ function extractFrom(
  * @param extractConfig a configuration that indicates how to extract the data from the html information
  * @returns 
  */
-function getBarcode(root: cheerio.Root, extractConfig: ExternalPharmacyExtractConfig) {
+function getFromTable(root: cheerio.Root, extractConfig: ExternalPharmacyExtractConfig) {
     return root(extractConfig.barcode)
         .find("tr")
         .filter((_, row) => {
@@ -51,6 +51,10 @@ function getBarcode(root: cheerio.Root, extractConfig: ExternalPharmacyExtractCo
         })
         .children("td")
         .text()
+}
+
+function getFromScript(root: cheerio.Root, extractConfig: ExternalPharmacyExtractConfig) {
+    return JSON.parse(root(extractConfig.price).text())["offers"]["price"]
 }
 
 export default extractFrom

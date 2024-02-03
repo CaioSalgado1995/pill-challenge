@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
 async function getHtmlFrom(url: string) {
     return axios.get(url)
