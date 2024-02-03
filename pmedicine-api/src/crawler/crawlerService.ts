@@ -46,7 +46,7 @@ function getFromTable(root: cheerio.Root, extractConfig: ExternalPharmacyExtract
     return root(extractConfig.barcode)
         .find("tr")
         .filter((_, row) => {
-            console.debug("Crawling ... Table <hr> " + root(row).children("th").text())
+            console.debug("Crawling ... Table header <th> " + root(row).children("th").text())
             return root(row).children("th").text() == "EAN"
         })
         .children("td")

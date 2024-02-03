@@ -58,3 +58,12 @@ const tableWithMedicineInfo = [
     description: ".quantity",
     image: ".small-img"
 }
+
+export const defaultMedicine = {
+  name: "Medicine",
+  brand: "Brand",
+  image: "some_url",
+  price: 32.7,
+  description: "Quantity",
+  barcode: "7896094999992"
+}

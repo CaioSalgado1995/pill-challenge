@@ -6,6 +6,16 @@ This project is a first version of web crawler.
 yarn install
 ```
 
+### Running Tests
+- Running all tests
+```
+yarn test
+```
+- Check coverage
+```
+yarn test:cov
+```
+
 ## Run
 ```
 yarn dev
