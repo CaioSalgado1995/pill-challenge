@@ -1,8 +1,10 @@
 version: '3'
 services:
   pmedicine-api:
-    build: .
+    build:
+      context: ./pmedicine-api
   pmedicine-front:
-    build: .
+    build:
+      context: ./pmedicine-front
     depends_on:
       - pmedicine-api
