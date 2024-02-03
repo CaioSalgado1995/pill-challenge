@@ -9,7 +9,16 @@ type ExternalPharmacyExtractConfig = {
 
 type ExtractConfigDetails = {
     type: ExtractConfigType,
-    selector: string
+    selector: string,
+    extraInfo: ExtraInfoTable | ExtraInfoScript | undefined
+}
+
+type ExtraInfoTable = {
+    searchHeader: string
+}
+
+type ExtraInfoScript =  {
+    path: string
 }
 
 export default ExternalPharmacyExtractConfig
