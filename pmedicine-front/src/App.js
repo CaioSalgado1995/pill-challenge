@@ -1,10 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-//import { NumberFormat } from 'react-number-format';
+import { NumericFormat } from 'react-number-format';
+import { TextField } from "@mui/material";
 
 function App() {
+
+  const materialUITextFieldProps = {
+    id: "filled-multiline-flexible",
+    label: "Valor do produto",
+    multiline: true,
+    maxRows: 4,
+    variant: "filled"
+  };
 
   const [data, setData] = useState([]);
 
@@ -25,7 +33,7 @@ function App() {
   return (
     <div style={{ backgroundColor: '#f0f0f0', padding: '20px', margin: '0 auto' }}>
       <header style={{ maxWidth: '100%', display: 'flex', alignItems: 'center' }}>
-        <img src={logo} alt="Logo" style={{ width: '200px', marginRight: '10px' }} />
+        <img src="https://pill.com.br/cdn/shop/t/51/assets/header-union.svg?v=4551551774730843711689454729" alt="Logo" style={{ width: '100px', marginRight: '10px' }} />
       </header>
         <div className="App" style={{ display: 'flex' }}>
           <div style={{ flex: '1', paddingRight: '10px' }}>
@@ -39,12 +47,22 @@ function App() {
             <br></br>
             <p>{data.barcode} - {data.brand}</p>
             <br></br>
-            <p>{data.price}</p>
+            <NumericFormat 
+              disabled="true"
+              value={data.price} 
+              thousandSeparator="."
+              decimalScale={2}
+              decimalSeparator=","
+              prefix="R$"
+              defaultValue={0.00}
+              customInput={TextField}
+              {...materialUITextFieldProps}
+              />
             <br></br>
           </div>
       </div>
       <footer style={{ maxWidth: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-        <img src={logo} alt="Logo" style={{ width: '200px', marginLeft: '10px' }} />
+        <img src="https://pill.com.br/cdn/shop/t/51/assets/header-union.svg?v=4551551774730843711689454729" alt="Logo" style={{ width: '100px', marginLeft: '10px' }} />
       </footer>
     </div>
     
