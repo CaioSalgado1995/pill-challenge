@@ -16,13 +16,7 @@ yarn test
 yarn test:cov
 ```
 
-## Run
+## Run locally
 ```
 yarn dev
-```
-
-## Docker
-To run with docker, use the following command
-```
-docker-compose build
 ```
