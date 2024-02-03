@@ -57,11 +57,18 @@ function MedicineData({ data }) {
   )
 }
 
+function PillLogo() {
+  const pillLogo = "https://pill.com.br/cdn/shop/t/51/assets/header-union.svg?v=4551551774730843711689454729"
+
+  return <img src={pillLogo} alt="Logo" style={{ width: '100px', marginRight: '10px' }} />
+}
+
 function App() {
 
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [textInput, setTextInput] = useState('');
+  
 
   const handleTextChange = (event) => {
     setTextInput(event.target.value);
@@ -86,7 +93,7 @@ function App() {
   return (
     <div style={{ backgroundColor: '#f0f0f0', padding: '20px', margin: '0 auto', height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header style={{ maxWidth: '100%', display: 'flex', alignItems: 'center' }}>
-        <img src="https://pill.com.br/cdn/shop/t/51/assets/header-union.svg?v=4551551774730843711689454729" alt="Logo" style={{ width: '100px', marginRight: '10px' }} />
+        <PillLogo/>
       </header>
         { error && <ErrorMessage message={error}/> }
         <div className="App" style={{ display: 'flex', paddingBottom: '50px' }}>
@@ -107,7 +114,7 @@ function App() {
           </div>
       </div>
       <footer style={{ maxWidth: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginTop: 'auto' }}>
-        <img src="https://pill.com.br/cdn/shop/t/51/assets/header-union.svg?v=4551551774730843711689454729" alt="Logo" style={{ width: '100px', marginLeft: '10px' }} />
+        <PillLogo/>
       </footer>
     </div>
     
