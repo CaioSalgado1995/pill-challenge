@@ -1,4 +1,4 @@
-# Getting Started
+## Getting Started
 
 This project is a repo containing two different layers
 - the api project `pmedicine-api` (Designed with Node and express)
