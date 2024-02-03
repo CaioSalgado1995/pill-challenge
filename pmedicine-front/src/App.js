@@ -34,7 +34,6 @@ function App() {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:4000/api/medicines?url=https://www.drogasil.com.br/neosaldina-30-drageas.html');
-        console.log(response.data.image)
         if(response.status != 200) {
           setError(response.data.code)
         } else {
