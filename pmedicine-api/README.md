@@ -29,8 +29,8 @@ yarn dev
 - `axios` - To execute http calls to other layers
 
 ## Next Improvements
-- Finish the generic configuration strategy to support crawling fron tables and scripts with different properties;
+- Finish the generic configuration strategy to support crawling from tables and scripts with different properties;
 - Externalize hostname and config inside docker as env
-- Building specific errors to not_found or generic Axios integration to improve readability and testability
+- Building specific errors to not_found or generic error in Axios integration to improve readability and testability
 - Testing crawler when get script without valid JSON (nowadays the code crashes)
 - Apply `loadsh` library to traverse the JSON providing a string like `path.sub_path`
