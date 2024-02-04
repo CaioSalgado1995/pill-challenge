@@ -28,7 +28,7 @@ function MedicineData({ data }) {
   };
 
   return (
-    <div class="medicine-data" style={{ display: 'flex' }}>
+    <div className="medicine-data" style={{ display: 'flex' }}>
       <div style={{ flex: '1', paddingRight: '10px' }}>
         <img 
           src={data.image} 
@@ -41,7 +41,7 @@ function MedicineData({ data }) {
         <p>{data.barcode} - {data.brand}</p>
         <br></br>
         <NumericFormat 
-          disabled="true"
+          disabled={true}
           value={data.price} 
           thousandSeparator="."
           decimalScale={2}
@@ -68,6 +68,7 @@ function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [textInput, setTextInput] = useState('');
+  const apiHost = process.env.REACT_APP_API_HOST || 'http://localhost:4001';
   
 
   const handleTextChange = (event) => {
@@ -76,16 +77,17 @@ function App() {
 
   const handleButtonClick = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/medicines?url=${textInput}`);
+      const response = await axios.get(`${apiHost}/api/medicines?url=${textInput}`);
       setTextInput('')
       if(response.status !== 200) {
-        setData(null)
         setError(response.data.code)
       } else {
+        setError(null);
         setData(response.data);
       }
     } catch (error) {
-      setError("Erro ao obter dados da API")
+      setData(null)
+      setError(error.response.data.message)
       console.error('Error fetching data:', error);
     }
   };

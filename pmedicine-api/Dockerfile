@@ -1,7 +1,7 @@
-FROM node as builder
+FROM node
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Install app dependencies
 COPY package.json yarn.lock ./
@@ -12,20 +12,6 @@ COPY . .
 
 RUN yarn build
 
-FROM node:slim
-
-ENV NODE_ENV production
-USER node
-
-# Create app directory
-WORKDIR /usr/src/app
-
-# Install app dependencies
-COPY package.json yarn.lock ./
-
-RUN yarn install --production --frozen-lockfile
-
-COPY --from=builder /usr/src/app/dist ./dist
-
 EXPOSE 4001
-CMD [ "node", "dist/index.js" ]
+CMD [ "node", "./src/index.js" ]
+
