@@ -2,6 +2,13 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Next Improvements
+- Extract components to other files
+- Extract css config to `.css` file and replace by `className` usage
+- Improve css code (research)
+- Apply `typescript` to the project
+- Use `props` properly
+
 ## Available Scripts
 
 In the project directory, you can run:
