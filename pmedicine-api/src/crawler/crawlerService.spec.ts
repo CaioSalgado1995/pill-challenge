@@ -1,4 +1,6 @@
-import { html, htmlWithoutTable, drogasilConfig } from '../__fixtures__/fixtures.js';
+import { html, htmlWithoutTable } from '../__fixtures__/fixtures.js';
+import { drograsilCrawlerConfig } from '../config/config.js';
+import { ExtractConfigType } from '../model/extractConfigType.js';
 import extractFrom from './crawlerService.js';
 
 
@@ -14,18 +16,42 @@ describe('crawlerService', () => {
                 barcode: "7896094999992"
             }
 
-            const result = extractFrom(html, drogasilConfig)
+            const result = extractFrom(html, drograsilCrawlerConfig)
 
             expect(result).toStrictEqual(expected)
         });
         it('should extract from html without image', () => {
-            const config = {
-                name: ".product-name > h1",
-                brand: ".brand",
-                barcode: ".ProductAttributestyles__ProductAttributeStyles-sc-1smttju-0 > table",
-                price: "script[type=application/ld+json]",
-                description: ".quantity",
-                image: ".small-img-2"
+            const drograsilCrawlerConfig = {
+                name: {
+                    type: ExtractConfigType.TEXT,
+                    selector: ".product-name > h1"
+                },
+                brand: {
+                    type: ExtractConfigType.TEXT,
+                    selector: ".brand",
+                },
+                barcode: {
+                    type: ExtractConfigType.TABLE,
+                    selector: ".ProductAttributestyles__ProductAttributeStyles-sc-1smttju-0 > table",
+                    extraInfo: {
+                        headerText: "EAN"
+                    }
+                },
+                price: {
+                    type: ExtractConfigType.SCRIPT,
+                    selector: "script[type=application/ld+json]",
+                    extraInfo : {
+                        path: "offers.price"
+                    }
+                },
+                description: {
+                    type: ExtractConfigType.TEXT,
+                    selector: ".quantity"
+                },
+                image: {
+                    type: ExtractConfigType.IMAGE,
+                    selector: ".small-img-2"
+                }
             }
 
             const expected = {
@@ -37,30 +63,21 @@ describe('crawlerService', () => {
                 barcode: "7896094999992"
             }
 
-            const result = extractFrom(html, config)
+            const result = extractFrom(html, drograsilCrawlerConfig)
 
             expect(result).toStrictEqual(expected)
         });
         it('should extract without barcode', () => {
-            const config = {
-                name: ".product-name > h1",
-                brand: ".brand",
-                barcode: ".ProductAttributestyles__ProductAttributeStyles-sc-1smttju-0 > table",
-                price: "script[type=application/ld+json]",
-                description: ".quantity",
-                image: ".small-img-2"
-            }
-
             const expected = {
                 name: "Medicine",
                 brand: "Brand",
-                image: undefined,
+                image: "some_url",
                 price: 32.7,
                 description: "Quantity",
                 barcode: ""
             }
 
-            const result = extractFrom(htmlWithoutTable, config)
+            const result = extractFrom(htmlWithoutTable, drograsilCrawlerConfig)
 
             expect(result).toStrictEqual(expected)
         });

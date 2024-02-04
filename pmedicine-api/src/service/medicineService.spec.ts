@@ -1,7 +1,8 @@
 import getMedicineData from './medicineService.js';
 import * as httpClient from '../client/httpClient'
 import * as crawlerService from '../crawler/crawlerService.js';
-import { html, drogasilConfig, defaultMedicine } from '../__fixtures__/fixtures.js';
+import { html, defaultMedicine } from '../__fixtures__/fixtures.js';
+import { drograsilCrawlerConfig } from '../config/config.js';
 
 describe('medicineService', () => {
     describe('getMedicineData', () => {
@@ -16,7 +17,7 @@ describe('medicineService', () => {
 
             expect(result).toStrictEqual(defaultMedicine)
             expect(mockHttpClient).toHaveBeenCalledWith(url)
-            expect(mockCrawler).toHaveBeenCalledWith(html, drogasilConfig)
+            expect(mockCrawler).toHaveBeenCalledWith(html, drograsilCrawlerConfig)
         });
 
         it('should throw error for unconfigured pharmacy', async () => {

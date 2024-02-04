@@ -50,15 +50,6 @@ const tableWithMedicineInfo = [
     '</html>'
   ].join('');
 
-  export const drogasilConfig = {
-    name: ".product-name > h1",
-    brand: ".brand",
-    barcode: ".ProductAttributestyles__ProductAttributeStyles-sc-1smttju-0 > table",
-    price: "script[type=application/ld+json]",
-    description: ".quantity",
-    image: ".small-img"
-}
-
 export const defaultMedicine = {
   name: "Medicine",
   brand: "Brand",

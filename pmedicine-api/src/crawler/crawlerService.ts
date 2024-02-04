@@ -1,12 +1,12 @@
 import cheerio from 'cheerio'
 import Medicine from '../model/medicine'
 import ExternalPharmacyExtractConfig from '../model/extractConfig'
+import { ExtraInfoScript, ExtraInfoTable, ExtractConfigDetails } from '../model/extractConfigDetails'
+import { ExtractConfigType } from '../model/extractConfigType'
+import lodash from "lodash"
 
 /**
- * Issue to get the price information since it is loaded after by a script
- * https://stackoverflow.com/questions/71723592/scraping-dynamically-rendered-content-with-cheerio
- * Try later: https://github.com/puppeteer/puppeteer
- * After search the DOM, I found a script containing all the values, including the price
+ * Extract information from html based in extractConfig parameter
  * @param htmlData 
  * @param extractConfig a configuration that indicates how to extract the data from the html information
  * @returns a medicine model with all information
@@ -16,23 +16,29 @@ function extractFrom(
     extractConfig: ExternalPharmacyExtractConfig
 ): Medicine {
     const $ = cheerio.load(htmlData)
-    const medicineName = $(extractConfig.name).text()
-
-    console.debug("Crawling ... Medicine info - name: " + medicineName)
-
-    const medicineDescription = $(extractConfig.description).text()
-    const medicineBrand = $(extractConfig.brand).text()
-    const medicineImage = $(extractConfig.image).prop('src') as string
-    const medicinePrice = parseFloat(getFromScript($, extractConfig))
-    const medicineBarcode = getFromTable($, extractConfig)
-
+    
     return {
-        name: medicineName,
-        brand: medicineBrand,
-        barcode: medicineBarcode,
-        price: medicinePrice,
-        description: medicineDescription,
-        image: medicineImage
+        name: evaluate($, extractConfig.name),
+        brand: evaluate($, extractConfig.brand),
+        barcode: evaluate($, extractConfig.barcode),
+        price: parseFloat(evaluate($, extractConfig.price)),
+        description: evaluate($, extractConfig.description),
+        image: evaluate($, extractConfig.image)
+    }
+}
+
+function evaluate(root: cheerio.Root, extractConfigDetails: ExtractConfigDetails): string {
+    switch(extractConfigDetails.type){
+        case ExtractConfigType.TEXT:
+            return root(extractConfigDetails.selector).text()
+        case ExtractConfigType.IMAGE:
+            return root(extractConfigDetails.selector).prop('src') as string
+        case ExtractConfigType.TABLE:
+            return getFromTable(root, extractConfigDetails)
+        case ExtractConfigType.SCRIPT:
+            return getFromScript(root, extractConfigDetails)
+        default:
+            return ""
     }
 }
 
@@ -42,19 +48,21 @@ function extractFrom(
  * @param extractConfig a configuration that indicates how to extract the data from the html information
  * @returns 
  */
-function getFromTable(root: cheerio.Root, extractConfig: ExternalPharmacyExtractConfig) {
-    return root(extractConfig.barcode)
+function getFromTable(root: cheerio.Root, extractConfigDetails: ExtractConfigDetails) {
+    const customData = (extractConfigDetails.extraInfo as ExtraInfoTable)
+    return root(extractConfigDetails.selector)
         .find("tr")
         .filter((_, row) => {
             console.debug("Crawling ... Table header <th> " + root(row).children("th").text())
-            return root(row).children("th").text() == "EAN"
+            return root(row).children("th").text() == customData.headerText
         })
         .children("td")
         .text()
 }
 
-function getFromScript(root: cheerio.Root, extractConfig: ExternalPharmacyExtractConfig) {
-    return JSON.parse(root(extractConfig.price).text())["offers"]["price"]
+function getFromScript(root: cheerio.Root, extractConfigDetails: ExtractConfigDetails) {
+    const customData = (extractConfigDetails.extraInfo as ExtraInfoScript)
+    return lodash.get(JSON.parse(root(extractConfigDetails.selector).text()), customData.path)
 }
 
 export default extractFrom

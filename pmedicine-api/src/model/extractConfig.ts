@@ -1,24 +1,12 @@
+import { ExtractConfigDetails } from "./extractConfigDetails"
+
 type ExternalPharmacyExtractConfig = {
-    name: string,
-    brand: string,
-    barcode: string,
-    price: string,
-    description: string,
-    image: string
-}
-
-type ExtractConfigDetails = {
-    type: ExtractConfigType,
-    selector: string,
-    extraInfo: ExtraInfoTable | ExtraInfoScript | undefined
-}
-
-type ExtraInfoTable = {
-    searchHeader: string
-}
-
-type ExtraInfoScript =  {
-    path: string
+    name: ExtractConfigDetails,
+    brand: ExtractConfigDetails,
+    barcode: ExtractConfigDetails,
+    price: ExtractConfigDetails,
+    description: ExtractConfigDetails,
+    image: ExtractConfigDetails
 }
 
 export default ExternalPharmacyExtractConfig

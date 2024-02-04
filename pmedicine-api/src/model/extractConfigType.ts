@@ -1,5 +1,6 @@
-enum ExtractConfigType {
+export enum ExtractConfigType {
     TEXT,
     SCRIPT,
-    TABLE
+    TABLE,
+    IMAGE
 }

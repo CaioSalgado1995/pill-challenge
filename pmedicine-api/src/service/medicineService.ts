@@ -2,6 +2,7 @@ import getHtmlFrom from '../client/httpClient'
 import extractFrom from '../crawler/crawlerService'
 import Medicine from '../model/medicine'
 import ExternalPharmacyExtractConfig from '../model/extractConfig'
+import { drograsilCrawlerConfig } from '../config/config'
 
 async function getMedicineData(url: string): Promise<Medicine> {
     const pharmacyExtractConfig = getExtractConfig(url)
@@ -12,14 +13,7 @@ async function getMedicineData(url: string): Promise<Medicine> {
 
 function getExtractConfig(url: string): ExternalPharmacyExtractConfig {
     if(url.includes("drogasil")) {
-        return {
-            name: ".product-name > h1",
-            brand: ".brand",
-            barcode: ".ProductAttributestyles__ProductAttributeStyles-sc-1smttju-0 > table",
-            price: "script[type=application/ld+json]",
-            description: ".quantity",
-            image: ".small-img"
-        }
+        return drograsilCrawlerConfig
     } else {
         throw Error("External pharmacy provider does not have any configuration " + url)
     }
