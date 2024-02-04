@@ -5,7 +5,7 @@ This project is a repo containing two different layers
 - the frontend project `pmedicine-front` (Designed with React basic project)
 
 ## Run with Docker
-(WIP) To run with docker, use the following commands
+To run with docker, use the following commands at the root folder
 ```
 docker-compose build 
 docker-compose up
