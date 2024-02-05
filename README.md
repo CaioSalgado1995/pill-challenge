@@ -10,3 +10,7 @@ To run with docker, use the following commands at the root folder
 docker-compose build 
 docker-compose up
 ```
+Then, open your browser with the following url
+```
+http://localhost:3000
+```
